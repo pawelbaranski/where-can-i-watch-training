@@ -6,8 +6,9 @@ namespace WhereCanIWatch\Domain\Broadcast;
 interface BroadcastRepository
 {
     /**
-     * @param string $name
+     * @param string $nameQuery
+     * @param $finishDate \DateTime
      * @return Broadcast[]
      */
-    public function findAllNotFinished($name);
+    public function findNotFinishedBefore($nameQuery, \DateTime $finishDate);
 }

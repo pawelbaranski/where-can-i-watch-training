@@ -54,4 +54,9 @@ class Broadcast
     {
         return $this->endDate;
     }
+
+    public function equals(Broadcast $broadcast)
+    {
+        return $this->id === $broadcast->id;
+    }
 }

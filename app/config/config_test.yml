@@ -8,6 +8,10 @@ framework:
     profiler:
         collect: false
 
+doctrine:
+    dbal:
+        path:     "%kernel.var_dir%/test_data.sqlite"
+
 web_profiler:
     toolbar: false
     intercept_redirects: false
