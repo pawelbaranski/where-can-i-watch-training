@@ -7,6 +7,7 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    kernel.var_dir: "/home/ubuntu/sf3-sandbox/var"
 
 framework:
     #esi:             ~
@@ -27,7 +28,7 @@ framework:
     session:
         # http://symfony.com/doc/current/reference/configuration/framework.html#handler-id
         handler_id:  session.handler.native_file
-        save_path:   "%kernel.root_dir%/../var/sessions/%kernel.environment%"
+        save_path:   "%kernel.var_dir%/sessions/%kernel.environment%"
     fragments:       ~
     http_method_override: true
     assets: ~
