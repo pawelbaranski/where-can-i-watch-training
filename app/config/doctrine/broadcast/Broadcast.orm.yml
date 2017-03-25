@@ -1,0 +1,17 @@
+WhereCanIWatch\Domain\Broadcast\Broadcast:
+    type: entity
+    table: broadcasts
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        name: ~
+        startDate:
+            type: datetime
+        endDate:
+            type: datetime
+    embedded:
+        tvChannel:
+            class: WhereCanIWatch\Domain\Broadcast\TVChannel
+            column_prefix: tvchannel_

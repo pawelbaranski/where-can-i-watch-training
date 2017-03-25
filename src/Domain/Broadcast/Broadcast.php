@@ -5,6 +5,8 @@ namespace WhereCanIWatch\Domain\Broadcast;
 
 class Broadcast
 {
+    private $id;
+    
     private $name;
 
     private $tvChannel;

@@ -1,0 +1,4 @@
+WhereCanIWatch\Domain\Broadcast\TVChannel:
+    type: embeddable
+    fields:
+        name: ~
