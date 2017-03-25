@@ -13,5 +13,3 @@
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
-/src/Domain
-/tests/*/Domain
