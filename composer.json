@@ -48,7 +48,11 @@
         ],
         "post-update-cmd": [
             "@symfony-scripts"
-        ]
+        ],
+        "tests": [
+            "@unit-tests"
+        ],
+        "unit-tests": "./vendor/bin/phpunit --testsuite=unit"
     },
     "extra": {
         "symfony-app-dir": "app",
