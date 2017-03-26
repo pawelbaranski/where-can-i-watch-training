@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Start date</th>
+        <th>TV Channel</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for broadcast in broadcasts %}
+        <tr>{% include 'search/search_result_row.html.twig' %}</tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
