@@ -51,9 +51,11 @@
             "@symfony-scripts"
         ],
         "tests": [
-            "@unit-tests"
+            "@unit-tests",
+            "@integration-tests"
         ],
-        "unit-tests": "./vendor/bin/phpunit --testsuite=unit"
+        "unit-tests": "./vendor/bin/phpunit --testsuite=unit",
+        "integration-tests": "./vendor/bin/phpunit --testsuite=integration"
     },
     "extra": {
         "symfony-app-dir": "app",
