@@ -3,21 +3,35 @@
 namespace WhereCanIWatch\AppBundle\Controller;
 
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use WhereCanIWatch\AppBundle\Form\Type\SearchType;
 
 class SearchController extends Controller
 {
     /**
-     * @Route("/search/{query}", name="search_broadcasts")
-     * @Method("GET")
+     * @Route("/search", name="search_broadcasts")
+     * @Method({"POST", "GET"})
      */
-    public function searchAction($query = null)
+    public function searchAction(Request $request)
     {
-        $broadcasts = $this->get('app.broadcast_repository')->findNotFinishedBefore($query, new \DateTime());
+        $form = $this->createForm(SearchType::class);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $query = $form->get('query')->getData();
+
+            $broadcasts = $this->get('app.broadcast_repository')->findNotFinishedBefore($query, new \DateTime());
+        } else {
+            $broadcasts = [];
+        }
 
         return $this->render('search/search.html.twig', [
+            'form' => $form->createView(),
             'broadcasts' => $broadcasts
         ]);
     }

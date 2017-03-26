@@ -18,4 +18,10 @@ class SearchType extends AbstractType
             ]
         ]);
     }
+
+    public function getBlockPrefix()
+    {
+        /** http://stackoverflow.com/a/34278097 */
+        return 'broadcasts_search';
+    }
 }
