@@ -25,7 +25,7 @@ class SearchController extends Controller
 
             $query = $form->get('query')->getData();
 
-            $broadcasts = $this->get('app.broadcast_repository')->findNotFinishedBefore($query, new \DateTime());
+            $broadcasts = $this->get('app.broadcast_repository')->findNotFinished($query, new \DateTime());
         } else {
             $broadcasts = [];
         }

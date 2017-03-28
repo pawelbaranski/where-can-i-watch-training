@@ -22,36 +22,27 @@ class ORMBroadcastRepositoryTest extends IntegrationTestCase
     }
 
     /** @test */
-    public function findsNotFinishedBroadcasts()
+    public function findsNotFinishedBroadcastsOfGivenName()
     {
-        $finishedBroadcast1 = new Broadcast(
+        $finishedBroadcast = new Broadcast(
             'test',
             TVChannel::named('test-ch1'),
             new \DateTime('yesterday'),
             new \DateTime('yesterday')
         );
 
-        $notFinishedBroadcast1 = new Broadcast(
+        $notFinishedBroadcast = new Broadcast(
             'test',
             TVChannel::named('test-ch1'),
             new \DateTime('now'),
             new \DateTime('+1 hour')
         );
 
-        $notFinishedBroadcast2 = new Broadcast(
-            'test',
-            TVChannel::named('test-ch1'),
-            new \DateTime('+1 hour'),
-            new \DateTime('+2 hour')
-        );
+        $this->saveAll([$finishedBroadcast, $notFinishedBroadcast]);
 
-        $this->saveAll([$finishedBroadcast1, $notFinishedBroadcast1, $notFinishedBroadcast2]);
+        $found = $this->repository->findNotFinished('test', new \DateTime('-1 hour'));
 
-        $found = $this->repository->findNotFinishedBefore('test', new \DateTime('-1 hour'));
-
-        $this->assertCount(2, $found);
-        $this->assertContains($notFinishedBroadcast1, $found);
-        $this->assertContains($notFinishedBroadcast2, $found);
+        $this->assertEquals([$notFinishedBroadcast], $found);
     }
 
     /** @test */
@@ -66,7 +57,7 @@ class ORMBroadcastRepositoryTest extends IntegrationTestCase
 
         $this->save($notFinishedBroadcast);
 
-        $this->assertSame([], $this->repository->findNotFinishedBefore('some', new \DateTime('-1 hour')));
+        $this->assertSame([], $this->repository->findNotFinished('some', new \DateTime('-1 hour')));
     }
 
     /** @test */
@@ -95,7 +86,7 @@ class ORMBroadcastRepositoryTest extends IntegrationTestCase
 
         $this->saveAll([$notFinishedBroadcast1, $notFinishedBroadcast2, $notFinishedBroadcast3]);
 
-        $found = $this->repository->findNotFinishedBefore('test', new \DateTime());
+        $found = $this->repository->findNotFinished('test', new \DateTime());
 
         $this->assertEquals([
             $notFinishedBroadcast2,
@@ -107,6 +98,54 @@ class ORMBroadcastRepositoryTest extends IntegrationTestCase
     /** @test */
     public function returnsEmptyArrayIfThereAreNoBroadcastsFound()
     {
-        $this->assertSame([], $this->repository->findNotFinishedBefore('test', new \DateTime()));
+        $this->assertSame([], $this->repository->findNotFinished('test', new \DateTime()));
+    }
+
+    /** @test */
+    public function findsNotFinishedBroadcastsOrderedByTVChannelAndStartDate()
+    {
+        $notFinishedBroadcast1 = new Broadcast(
+            'test',
+            TVChannel::named('test-ch2'),
+            new \DateTime('+1 hour'),
+            new \DateTime('+2 hour')
+        );
+
+        $notFinishedBroadcast2 = new Broadcast(
+            'test',
+            TVChannel::named('test-ch1'),
+            new \DateTime('+2 hour'),
+            new \DateTime('+3 hour')
+        );
+
+        $notFinishedBroadcast3 = new Broadcast(
+            'test',
+            TVChannel::named('test-ch2'),
+            new \DateTime('+2 hour'),
+            new \DateTime('+3 hour')
+        );
+
+        $notFinishedBroadcast4 = new Broadcast(
+            'test',
+            TVChannel::named('test-ch1'),
+            new \DateTime('+1 hour'),
+            new \DateTime('+2 hour')
+        );
+
+        $this->saveAll([
+            $notFinishedBroadcast1,
+            $notFinishedBroadcast2,
+            $notFinishedBroadcast3,
+            $notFinishedBroadcast4
+        ]);
+
+        $found = $this->repository->findNotFinishedOrderedByTVChannelAndStartDate(new \DateTime('-1 hour'));
+
+        $this->assertEquals([
+            $notFinishedBroadcast4,
+            $notFinishedBroadcast2,
+            $notFinishedBroadcast1,
+            $notFinishedBroadcast3,
+        ], $found);
     }
 }

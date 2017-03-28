@@ -20,19 +20,34 @@ class ORMBroadcastRepository implements BroadcastRepository
         $this->entityManager = $entityManager;
     }
 
-    public function findNotFinishedBefore($nameQuery, \DateTime $finishDate)
+    public function findNotFinished($nameQuery, \DateTime $finishDate)
     {
         return $this
-            ->repository()
-            ->createQueryBuilder('b')
-            ->select('b')
-            ->where('b.endDate > :finishDate')
+            ->findAllNotFinishedQuery($finishDate)
             ->andWhere('b.name = :nameQuery')
-            ->setParameter('finishDate', $finishDate)
             ->setParameter('nameQuery', $nameQuery)
             ->orderBy('b.endDate', 'ASC')
             ->getQuery()
             ->getResult();
+    }
+
+    public function findNotFinishedOrderedByTVChannelAndStartDate(\DateTime $finishDate)
+    {
+        return $this
+            ->findAllNotFinishedQuery($finishDate)
+            ->orderBy('b.tvChannel.name', 'ASC')
+            ->addOrderBy('b.startDate', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    private function findAllNotFinishedQuery(\DateTime $finishDate)
+    {
+        return $this
+            ->repository()
+            ->createQueryBuilder('b')
+            ->where('b.endDate > :finishDate')
+            ->setParameter('finishDate', $finishDate);
     }
 
     /**

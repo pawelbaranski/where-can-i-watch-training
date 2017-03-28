@@ -10,5 +10,11 @@ interface BroadcastRepository
      * @param $finishDate \DateTime
      * @return Broadcast[]
      */
-    public function findNotFinishedBefore($nameQuery, \DateTime $finishDate);
+    public function findNotFinished($nameQuery, \DateTime $finishDate);
+
+    /**
+     * @param $finishDate \DateTime
+     * @return Broadcast[]
+     */
+    public function findNotFinishedOrderedByTVChannelAndStartDate(\DateTime $finishDate);
 }
