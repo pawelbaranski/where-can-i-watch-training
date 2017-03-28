@@ -5,10 +5,12 @@ namespace WhereCanIWatch\AppBundle\Controller\Admin;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
  * @Route("/admin/broadcast")
+ * @Security("has_role('ROLE_ADMIN')")
  */
 class BroadcastController extends Controller
 {
