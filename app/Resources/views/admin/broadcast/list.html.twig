@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+{% if broadcasts %}
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>TV Channel</th>
+        <th>Start date</th>
+        <th>End date</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for broadcast in broadcasts %}
+        <tr>{% include 'admin/broadcast/list_row.html.twig' %}</tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}
