@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @Route("/admin/broadcast")
@@ -20,10 +21,6 @@ class BroadcastController extends Controller
      */
     public function listAction()
     {
-        $broadcasts = $this
-            ->get('app.broadcast_repository')
-            ->findNotFinishedOrderedByTVChannelAndStartDate(new \DateTime());
-
-        return $this->render('admin/broadcast/list.html.twig', ['broadcasts' => $broadcasts]);
+        return new Response('admin panel');
     }
 }
